@@ -13,6 +13,6 @@ export interface Style {
 
 export default function Logo({ poppins }: PoppinsFontClasses) {
   return (
-    <div className={`w-full flex justify-start text-3xl text-white ${poppins.className}`}>Ai Asker</div>
+    <div className={`w-full flex justify-start text-3xl text-white font-extrabold ${poppins.className}`}>Ai Asker</div>
   );
 }
