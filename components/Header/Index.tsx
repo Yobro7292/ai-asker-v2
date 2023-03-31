@@ -2,6 +2,7 @@ import { Poppins } from "next/font/google";
 import Logo from "./Logo";
 import Links from "./Links";
 import HeaderButtons from "./HeaderButtons";
+import { Menu } from "./Menu";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -14,6 +15,7 @@ export default function Header() {
       <Logo poppins={poppins} />
       <Links poppins={poppins} />
       <HeaderButtons poppins={poppins} />
+      <Menu />
     </div>
   );
 }

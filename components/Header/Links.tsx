@@ -28,7 +28,7 @@ export default function Links({ poppins }: PoppinsFontClasses) {
     <>
       {" "}
       <div
-        className={`text-md text-white font-light ${poppins.className} py-2`}
+        className={`w-full hidden lg:flex justify-center items-center text-md text-white font-light ${poppins.className} py-2`}
       >
         {links.map((link, i) => {
           return (
