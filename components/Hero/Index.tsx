@@ -9,7 +9,7 @@ import Image from "next/image";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "800"],
+  weight: ["300", "700", "800"],
 });
 
 export default function Hero() {
@@ -25,9 +25,10 @@ export default function Hero() {
     <>
       <div className={styles.center}>
         <Particles
+          className="absolute w-full top-0 left-0 min-h-screen"
           id="tsparticles"
           options={{
-            fps_limit: 60,
+            fps_limit: 120,
             interactivity: {
               detect_on: "canvas",
               events: {
@@ -60,12 +61,12 @@ export default function Hero() {
                 enable: true,
                 out_mode: "out",
                 random: false,
-                speed: 1,
+                speed: 0.8,
                 straight: false,
               },
               number: { density: { enable: true, value_area: 800 }, value: 80 },
               opacity: {
-                anim: { enable: true, opacity_min: 0.3, speed: 2, sync: false },
+                anim: { enable: true, opacity_min: 0.3, speed: 1, sync: false },
                 random: false,
                 value: 0.5,
               },
@@ -73,7 +74,7 @@ export default function Hero() {
                 type: "circle",
               },
               size: {
-                anim: { enable: false, size_min: 0.1, speed: 40, sync: false },
+                anim: { enable: true, size_min: 0.1, speed: 4, sync: false },
                 random: true,
                 value: 3,
               },
@@ -84,10 +85,12 @@ export default function Hero() {
           loaded={particlesLoaded}
         />
         <div
-          className={`relative w-[80%] h-56 py-56 flex flex-col justify-center items-center rounded-xl shadow-lg backdrop-blur-sm px-12 text-white ${poppins.className}`}
+          className={`relative w-full sm:w-[90%] lg:w-[80%] h-56 py-56 flex flex-col justify-center items-center rounded-xl sm:shadow-lg backdrop-blur-sm px-2 mx-4 -mt-[40px] sm:mt-0 sm:px-6 lg:px-12 text-white ${poppins.className}`}
         >
-          <p className="text-xl font-light mb-6">YOUR PERSONAL BOT IS HERE</p>
-          <span className="text- text-5xl font-extrabold my-4">
+          <p className="text-sm sm:text-lg lg:text-xl font-light mb-4 sm:mb-5 lg:mb-6">
+            YOUR PERSONAL BOT IS HERE
+          </p>
+          <span className="text-3xl sm:text-4xl lg:text-5xl font-bold sm:font-extrabold my-4 text-center">
             Ask Anything You Want{" "}
           </span>
 

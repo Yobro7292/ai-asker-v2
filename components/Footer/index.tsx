@@ -1,13 +1,33 @@
-import Github from "@/assets/svg/github";
-import Instagram from "@/assets/svg/instagram";
-import Twitter from "@/assets/svg/twitter";
 import Image from "next/image";
 import Link from "next/link";
 
 const socialMedia = [
-  { title: "Instagram", image: <Instagram />, href: "#" },
-  { title: "Twitter", image: <Twitter />, href: "#" },
-  { title: "Github", image: <Github />, href: "#" },
+  {
+    title: "Instagram",
+    image: (
+      <Image
+        src="/svg/instagram.svg"
+        width={24}
+        height={24}
+        alt={"instagram"}
+      />
+    ),
+    href: "#",
+  },
+  {
+    title: "Twitter",
+    image: (
+      <Image src="/svg/twitter.svg" width={24} height={24} alt={"twitter"} />
+    ),
+    href: "#",
+  },
+  {
+    title: "Github",
+    image: (
+      <Image src="/svg/github.svg" width={24} height={24} alt={"github"} />
+    ),
+    href: "#",
+  },
   {
     title: "Daily Dev",
     image: (
@@ -20,7 +40,7 @@ export default function Footer() {
   return (
     <footer
       aria-label="Site Footer"
-      className="bg-transparent backdrop-blur-sm w-full z-10 absolute bottom-0 left-0"
+      className="bg-transparent backdrop-blur-sm w-full z-10 absolute bottom-10 sm:bottom-0 left-0"
     >
       <div className="mx-auto max-w-5xl px-4 py-4 sm:px-6 lg:px-8 flex justify-center items-center">
         <ul className="my-4 flex justify-center gap-6 md:gap-8">
