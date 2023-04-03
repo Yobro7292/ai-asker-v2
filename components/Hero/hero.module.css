@@ -8,20 +8,4 @@
   top: 0%;
   left: 0%;
   min-height: 100vh;
-  background-image: linear-gradient(
-    to right top,
-    #063e53,
-    #05495e,
-    #035369,
-    #015f73,
-    #006a7d,
-    #00798a,
-    #008995,
-    #00999f,
-    #1db1ac,
-    #3cc9b5,
-    #5de1bb,
-    #81f9bf
-  );
-  background-size: cover;
 }

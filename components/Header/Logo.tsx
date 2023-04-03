@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export interface PoppinsFontClasses {
   poppins: {
     style: Style;
@@ -13,6 +15,11 @@ export interface Style {
 
 export default function Logo({ poppins }: PoppinsFontClasses) {
   return (
-    <div className={`w-full flex justify-start text-3xl text-white font-extrabold ${poppins.className}`}>Ai Asker</div>
+    <Link
+      href={"/"}
+      className={`w-full flex justify-start text-3xl text-white font-extrabold ${poppins.className}`}
+    >
+      Ai Asker
+    </Link>
   );
 }

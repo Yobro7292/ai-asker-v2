@@ -6,6 +6,7 @@ import Particles from "react-particles";
 import type { Container, Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
 import Image from "next/image";
+import Link from "next/link";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -85,7 +86,7 @@ export default function Hero() {
           loaded={particlesLoaded}
         />
         <div
-          className={`relative w-full sm:w-[90%] lg:w-[80%] h-56 py-56 flex flex-col justify-center items-center rounded-xl sm:shadow-lg backdrop-blur-sm px-2 mx-4 -mt-[40px] sm:mt-0 sm:px-6 lg:px-12 text-white ${poppins.className}`}
+          className={`relative w-full sm:w-[90%] lg:w-[80%] h-56 py-56 flex flex-col justify-center items-center rounded-xl backdrop-blur-sm px-2 mx-4 -mt-[40px] sm:mt-0 sm:px-6 lg:px-12 text-white ${poppins.className}`}
         >
           <p className="text-sm sm:text-lg lg:text-xl font-light mb-4 sm:mb-5 lg:mb-6">
             YOUR PERSONAL BOT IS HERE
@@ -93,18 +94,16 @@ export default function Hero() {
           <span className="text-3xl sm:text-4xl lg:text-5xl font-bold sm:font-extrabold my-4 text-center">
             Ask Anything You Want{" "}
           </span>
-
-          <div
-            className="w-[8rem] h-[8rem] bg-[#00000024] p-4 mt-8 ring ring-teal-400 ring-offset-2 ring-offset-white rounded-full z-10 flex justify-center items-center text-4xl font-bold text-white  cursor-pointer shadow-xl"
-            id="repulse-div"
-          >
-            <Image
-              src={"/rocket.svg"}
-              alt={"rocket"}
-              width={100}
-              height={100}
-            />
-          </div>
+          <Link href={"/playground"}>
+            <div className="w-[8rem] h-[8rem] bg-stone-800 p-4 mt-8 ring ring-stone-300 ring-offset-8 ring-offset-black rounded-full z-10 flex justify-center items-center text-4xl font-bold text-white  cursor-pointer shadow-xl">
+              <Image
+                src={"/rocket.svg"}
+                alt={"rocket"}
+                width={100}
+                height={100}
+              />
+            </div>
+          </Link>
         </div>
       </div>
     </>

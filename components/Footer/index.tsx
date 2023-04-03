@@ -40,7 +40,7 @@ export default function Footer() {
   return (
     <footer
       aria-label="Site Footer"
-      className="bg-transparent backdrop-blur-sm w-full z-10 absolute bottom-10 sm:bottom-0 left-0"
+      className="bg-transparent opacity-50 xbackdrop-blur-sm w-full z-10 absolute bottom-10 sm:bottom-0 left-0"
     >
       <div className="mx-auto max-w-5xl px-4 py-4 sm:px-6 lg:px-8 flex justify-center items-center">
         <ul className="my-4 flex justify-center gap-6 md:gap-8">
