@@ -1,13 +1,13 @@
 "use client";
 import { Poppins } from "next/font/google";
+import { useVisitorData } from "@fingerprintjs/fingerprintjs-pro-react";
 import styles from "./hero.module.css";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import Particles from "react-particles";
 import type { Container, Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
 import Image from "next/image";
 import Link from "next/link";
-import { setCookie } from "cookies-next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -15,7 +15,10 @@ const poppins = Poppins({
 });
 
 export default function Hero() {
-  setCookie("key", "value");
+  const { isLoading, error, data, getData } = useVisitorData(
+    { extendedResult: true },
+    { immediate: true }
+  );
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);
@@ -24,6 +27,9 @@ export default function Hero() {
     async (container: Container | undefined) => {},
     []
   );
+  useEffect(() => {
+    if (!isLoading && data) console.log(data);
+  }, [isLoading]);
   return (
     <>
       <div className={styles.center}>
