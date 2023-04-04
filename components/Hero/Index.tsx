@@ -7,6 +7,7 @@ import type { Container, Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
 import Image from "next/image";
 import Link from "next/link";
+import { setCookie } from "cookies-next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -14,6 +15,7 @@ const poppins = Poppins({
 });
 
 export default function Hero() {
+  setCookie("key", "value");
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);
