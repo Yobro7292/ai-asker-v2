@@ -29,13 +29,13 @@ export default function Header({ logo, links, headerButtons }: Propstype) {
       {logo && <Logo poppins={poppins} />}
       {links && <Links poppins={poppins} />}
       {user && user.name && (
-        <div className="w-full text-lg font-medium uppercase hidden lg:flex justify-end text-md text-white py-2">
+        <div className="w-full text-lg font-medium uppercase flex justify-end text-md text-white py-2">
           {" "}
           hi, {user.name}{" "}
         </div>
       )}
       {!user && headerButtons && <HeaderButtons poppins={poppins} />}
-      <Menu />
+      {user && !user.name && <Menu />}
     </div>
   );
 }
