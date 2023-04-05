@@ -40,7 +40,6 @@ export default function PlaygroundArea() {
     }
   };
   useEffect(() => {
-    console.log(visitorId);
     getUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visitorId]);

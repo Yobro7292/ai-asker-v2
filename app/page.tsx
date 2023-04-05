@@ -20,7 +20,7 @@ export default function Home() {
     <BraveDetection>
       <FpjsProvider
         loadOptions={{
-          apiKey: "HZmE91qHgdYIkzF16cfX",
+          apiKey: process.env.FINGERPRINT_PUBLIC_KEY || "",
         }}
       >
         <main className={`${styles.main} ${poppins.className}`}>
