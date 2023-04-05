@@ -3,8 +3,8 @@ import React, { PropsWithChildren, useEffect, useState } from "react";
 
 export default function BraveDetection({ children }: PropsWithChildren) {
   const [isbrave, setIsBrave] = useState<boolean>(false);
-  const Navigator: any = window.navigator;
   useEffect(() => {
+    const Navigator: any = window.navigator;
     (async () => {
       if (Navigator.brave && (await Navigator.brave.isBrave())) {
         setIsBrave(true);
