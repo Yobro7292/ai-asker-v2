@@ -1,10 +1,21 @@
-export default function OutputArea() {
+import Loader from "../common/Loader/Index";
+
+interface OutputProps {
+  output: string;
+  thinking: boolean;
+}
+export default function OutputArea({ output, thinking }: OutputProps) {
   return (
-    <div className="w-full h-full bg-black-high rounded-lg mb-1 py-4 px-4 text-gray-100 focus:outline-none text-justify">
-      Hungama is an online radio station streaming from Mumbai, India. On
-      Hungama is the station to tune in to hear the best Bollywood and Hindi
-      Romantic melodies, from the 90s until the today hits. The station promises
-      to play music that will make you fall in love.
+    <div className="relative w-full h-full flex justify-center items-center bg-black-high">
+      {thinking ? (
+        <Loader />
+      ) : (
+        <textarea
+          className="w-full h-full resize-none bg-black-high rounded-lg mb-1 py-4 px-4 text-gray-100 focus:outline-none text-justify"
+          value={output}
+          readOnly
+        ></textarea>
+      )}
     </div>
   );
 }

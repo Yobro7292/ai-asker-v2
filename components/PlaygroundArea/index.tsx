@@ -17,6 +17,8 @@ export default function PlaygroundArea() {
   const isFirstTimeUser = useAppSelector((state) => state.auth.isFirstTime);
   const visitorId = useAppSelector((state) => state.auth.visitorId);
   const [loading, setLoading] = useState<boolean>(true);
+  const [output, setOutput] = useState<string>("");
+  const [thinking, setThinking] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { isLoading, data } = useVisitorData(
     { extendedResult: true },
@@ -59,8 +61,8 @@ export default function PlaygroundArea() {
       <div className="grid grid-cols-4 gap-2 w-full h-full sm:py-2 sm:px-16 flex-1 mb-20 sm:mb-4">
         <RecentSearch />
         <div className="col-start-1 col-end-5 lg:col-start-2 lg:col-end-5 flex flex-col justify-between items-center w-full bg-black-low rounded-md p-2">
-          <OutputArea />
-          <InputArea />
+          <OutputArea output={output} thinking={thinking} />
+          <InputArea setOutput={setOutput} setThinking={setThinking} />
         </div>
       </div>
     </React.Fragment>
