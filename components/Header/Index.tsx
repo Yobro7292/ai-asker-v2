@@ -5,6 +5,7 @@ import Links from "./Links";
 import HeaderButtons from "./HeaderButtons";
 import { Menu } from "./Menu";
 import { usePathname } from "next/navigation";
+import { useAppSelector } from "@/lib/utils/hooks";
 
 interface Propstype {
   logo?: boolean;
@@ -17,6 +18,7 @@ const poppins = Poppins({
 });
 
 export default function Header({ logo, links, headerButtons }: Propstype) {
+  const user = useAppSelector((state) => state.auth.user);
   const pathname = usePathname();
   return (
     <div
@@ -26,7 +28,13 @@ export default function Header({ logo, links, headerButtons }: Propstype) {
     >
       {logo && <Logo poppins={poppins} />}
       {links && <Links poppins={poppins} />}
-      {headerButtons && <HeaderButtons poppins={poppins} />}
+      {user && user.name && (
+        <div className="w-full text-lg font-medium uppercase hidden lg:flex justify-end text-md text-white py-2">
+          {" "}
+          hi, {user.name}{" "}
+        </div>
+      )}
+      {!user && headerButtons && <HeaderButtons poppins={poppins} />}
       <Menu />
     </div>
   );

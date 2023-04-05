@@ -1,13 +1,15 @@
 "use client";
 import { Poppins } from "next/font/google";
+import { useVisitorData } from "@fingerprintjs/fingerprintjs-pro-react";
 import styles from "./hero.module.css";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import Particles from "react-particles";
 import type { Container, Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
-import Image from "next/image";
-import Link from "next/link";
-import { setCookie } from "cookies-next";
+import { particalOptions } from "../../lib/utils/particalOptions";
+import { useAppDispatch } from "@/lib/utils/hooks";
+import { setVisitorId } from "@/features/auth/authSlice";
+import StartButton from "../StartButton/Index";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -15,7 +17,11 @@ const poppins = Poppins({
 });
 
 export default function Hero() {
-  setCookie("key", "value");
+  const { isLoading, data } = useVisitorData(
+    { extendedResult: true },
+    { immediate: true }
+  );
+  const dispatch = useAppDispatch();
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);
@@ -24,66 +30,20 @@ export default function Hero() {
     async (container: Container | undefined) => {},
     []
   );
+  useEffect(() => {
+    if (!isLoading && data && data.visitorFound) {
+      const { visitorId } = data;
+      dispatch(setVisitorId(visitorId));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
   return (
     <>
       <div className={styles.center}>
         <Particles
-          className="absolute w-full top-0 left-0 min-h-screen"
+          className="absolute w-full top-0 left-0 min-h-screen pointer-events-none"
           id="tsparticles"
-          options={{
-            fps_limit: 120,
-            interactivity: {
-              detect_on: "canvas",
-              events: {
-                onDiv: {
-                  selectors: "#repulse-div",
-                  enable: true,
-                  mode: "repulse",
-                  type: "circle",
-                },
-                resize: true,
-              },
-              modes: {
-                push: { quantity: 4 },
-                attract: { distance: 200, duration: 0.4, factor: 5 },
-              },
-            },
-            particles: {
-              color: { value: "#ffffff" },
-              line_linked: {
-                color: "#ffffff",
-                distance: 150,
-                enable: true,
-                opacity: 0.3,
-                width: 1,
-              },
-              move: {
-                attract: { enable: false, rotateX: 600, rotateY: 1200 },
-                bounce: false,
-                direction: "none",
-                enable: true,
-                out_mode: "out",
-                random: false,
-                speed: 0.8,
-                straight: false,
-              },
-              number: { density: { enable: true, value_area: 800 }, value: 80 },
-              opacity: {
-                anim: { enable: true, opacity_min: 0.3, speed: 1, sync: false },
-                random: false,
-                value: 0.5,
-              },
-              shape: {
-                type: "circle",
-              },
-              size: {
-                anim: { enable: true, size_min: 0.1, speed: 4, sync: false },
-                random: true,
-                value: 3,
-              },
-            },
-            retina_detect: true,
-          }}
+          options={particalOptions}
           init={particlesInit}
           loaded={particlesLoaded}
         />
@@ -96,16 +56,7 @@ export default function Hero() {
           <span className="text-3xl sm:text-4xl lg:text-5xl font-bold sm:font-extrabold my-4 text-center">
             Ask Anything You Want{" "}
           </span>
-          <Link href={"/playground"}>
-            <div className="w-[8rem] h-[8rem] bg-stone-800 p-4 mt-8 ring ring-stone-300 ring-offset-8 ring-offset-black rounded-full z-10 flex justify-center items-center text-4xl font-bold text-white  cursor-pointer shadow-xl">
-              <Image
-                src={"/rocket.svg"}
-                alt={"rocket"}
-                width={100}
-                height={100}
-              />
-            </div>
-          </Link>
+          <StartButton />
         </div>
       </div>
     </>
