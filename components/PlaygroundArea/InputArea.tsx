@@ -2,10 +2,15 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface InputProps {
+  thinking: boolean;
   setOutput: React.Dispatch<React.SetStateAction<string>>;
   setThinking: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function InputArea({ setOutput, setThinking }: InputProps) {
+export default function InputArea({
+  setOutput,
+  thinking,
+  setThinking,
+}: InputProps) {
   const [question, setQuestion] = useState<string>("");
 
   const submitHandler = async () => {
@@ -45,14 +50,13 @@ export default function InputArea({ setOutput, setThinking }: InputProps) {
           setQuestion(e.target.value);
         }}
       />
-      <Image
-        src="/svg/send.svg"
-        width={40}
-        height={40}
-        alt="send button"
-        className="px-2 py-1 m-2 cursor-pointer invert bg-black rounded-lg"
+      <button
         onClick={submitHandler}
-      />
+        className="px-2 py-1 m-2 cursor-pointer invert bg-black rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
+        disabled={thinking}
+      >
+        <Image src="/svg/send.svg" width={30} height={30} alt="send button" />
+      </button>
     </div>
   );
 }
