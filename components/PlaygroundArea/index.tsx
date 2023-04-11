@@ -58,9 +58,9 @@ export default function PlaygroundArea() {
     <React.Fragment>
       {loading && <Loader />}
       {!loading && isFirstTimeUser && <RegisterModal />}
-      <div className="grid grid-cols-4 gap-2 w-full h-full sm:py-2 sm:px-16 flex-1 mb-20 sm:mb-4">
+      <div className="grid grid-cols-4 gap-2 w-full sm:py-2 sm:px-16 flex-1 mb-20 sm:mb-4 max-h-[50%]">
         <RecentSearch />
-        <div className="col-start-1 col-end-5 lg:col-start-2 lg:col-end-5 flex flex-col justify-between items-center w-full bg-black-low rounded-md p-2">
+        <div className="col-start-1 col-end-5 lg:col-start-2 lg:col-end-5 flex flex-col justify-between items-center w-full bg-black-low rounded-md p-2 h-[50%]">
           <OutputArea output={output} thinking={thinking} />
           <InputArea setOutput={setOutput} setThinking={setThinking} />
         </div>

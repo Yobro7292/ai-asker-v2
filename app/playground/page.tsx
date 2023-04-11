@@ -23,7 +23,7 @@ export default function Home() {
         }}
       >
         <main className={`${styles.main} ${poppins.className}`}>
-          <div className="min-h-screen flex flex-col justify-between items-stretch">
+          <div className="min-h-screen w-full flex flex-col justify-between items-stretch">
             <Header logo={true} />
             <PlaygroundArea />
           </div>
