@@ -12,7 +12,11 @@ interface CounterState {
     limit: number,
     createdAt: string,
     updatedAt: string
-  }
+  },
+  recent: {
+    title: string,
+    content: string | null
+  }[]
 }
 
 // Define the initial state using that type
@@ -25,7 +29,14 @@ const initialState: CounterState = {
     limit: 0,
     createdAt: "",
     updatedAt: ""
-  }
+  },
+  recent: [{
+    title: "",
+    content: ""
+  }]
+}
+interface recentData {
+  
 }
 
 export const authSlice = createSlice({
@@ -41,11 +52,16 @@ export const authSlice = createSlice({
     },
     setUser: (state, action:{payload:CounterState["user"]})=>{
       state.user = action.payload
+    },
+    setRecents: (state, action:{payload: CounterState["recent"]})=>{
+      action.payload.map((data)=>{
+        state.recent.push(data)
+      })
     }
   },
 })
 
-export const {  setVisitorId, setisFirstTime, setUser } = authSlice.actions
+export const {  setVisitorId, setisFirstTime, setUser, setRecents } = authSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.auth
