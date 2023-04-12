@@ -1,4 +1,3 @@
-import { setRecents } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/lib/utils/hooks";
 import Image from "next/image";
 import { useState } from "react";
@@ -31,8 +30,6 @@ export default function InputArea({
         if (resData && resData.success) {
           if (resData.data && resData.data.choices.length) {
             const outputMessage = resData.data.choices[0].message.content;
-            const recentData = [{ title: question, content: outputMessage }];
-            dispatch(setRecents(recentData));
             setOutput(outputMessage);
             setThinking(false);
           }

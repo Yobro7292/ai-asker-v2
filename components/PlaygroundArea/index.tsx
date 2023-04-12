@@ -3,10 +3,9 @@ import { useAppDispatch, useAppSelector } from "@/lib/utils/hooks";
 import InputArea from "./InputArea";
 import OutputArea from "./OutputArea";
 import RecentSearch from "./RecentSearch";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import RegisterModal from "../RegisterModal/Index";
 import {
-  setRecents,
   setUser,
   setVisitorId,
   setisFirstTime,
@@ -48,9 +47,11 @@ export default function PlaygroundArea() {
   }, [visitorId]);
 
   useEffect(() => {
-    if (!isLoading && data && data.visitorFound) {
-      const { visitorId } = data;
-      dispatch(setVisitorId(visitorId));
+    if (!visitorId) {
+      if (!isLoading && data && data.visitorFound) {
+        const { visitorId } = data;
+        dispatch(setVisitorId(visitorId));
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);

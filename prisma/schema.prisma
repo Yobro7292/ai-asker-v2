@@ -25,4 +25,5 @@ model Recent {
   content String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @db.ObjectId
+  createdAt DateTime @default(now())
 }

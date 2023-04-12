@@ -7,8 +7,12 @@ import Particles from "react-particles";
 import type { Container, Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
 import { particalOptions } from "../../lib/utils/particalOptions";
-import { useAppDispatch } from "@/lib/utils/hooks";
-import { setVisitorId } from "@/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/utils/hooks";
+import {
+  setUser,
+  setVisitorId,
+  setisFirstTime,
+} from "@/features/auth/authSlice";
 import StartButton from "../StartButton/Index";
 
 const poppins = Poppins({
@@ -21,6 +25,7 @@ export default function Hero() {
     { extendedResult: true },
     { immediate: true }
   );
+  const VisitorId = useAppSelector((state) => state.auth.visitorId);
   const dispatch = useAppDispatch();
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
@@ -30,6 +35,26 @@ export default function Hero() {
     async (container: Container | undefined) => {},
     []
   );
+
+  const setFirstTimeUser = async () => {
+    if (VisitorId) {
+      const res = await fetch(`/api/user/${VisitorId}`);
+      const resData = await res.json();
+      if (resData && resData.success) {
+        dispatch(setisFirstTime(false));
+        if (resData.user) {
+          const { id, name, limit, createdAt, updatedAt } = resData.user;
+          dispatch(setUser({ _id: id, name, limit, createdAt, updatedAt }));
+        }
+        if (resData.user && resData.recents) {
+          const { recents } = resData.user;
+        }
+      } else {
+        dispatch(setisFirstTime(true));
+      }
+    }
+  };
+
   useEffect(() => {
     if (!isLoading && data && data.visitorFound) {
       const { visitorId } = data;
@@ -37,6 +62,11 @@ export default function Hero() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
+
+  useEffect(() => {
+    setFirstTimeUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [VisitorId]);
   return (
     <>
       <div className={styles.center}>
