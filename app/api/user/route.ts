@@ -1,4 +1,4 @@
-import { getUsers, setUser } from '@/lib/prisma/users';
+import { setUser } from '@/lib/prisma/users';
 import { NextResponse } from 'next/server';
 
 export interface User {
@@ -7,10 +7,6 @@ export interface User {
   name: string
   createdAt : string
   updatedAt: string
-}
-export async function GET(request: Request) {
-  const users = await getUsers()
- return NextResponse.json(users)
 }
 export async function POST(request: Request) {
   try {

@@ -54,13 +54,12 @@ export default function PlaygroundArea() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
-
   return (
     <>
       {loading && <Loader />}
       {!loading && isFirstTimeUser && <RegisterModal />}
       <div className="grid grid-cols-4 gap-2 w-full sm:py-2 sm:px-16 mb-20 sm:mb-4 min-h-[70vh] max-h-[70vh]">
-        <RecentSearch />
+        <RecentSearch setOutput={setOutput} />
         <div className="col-start-1 col-end-5 lg:col-start-2 lg:col-end-5 flex flex-col justify-between items-center w-full bg-black-low rounded-md p-2">
           <OutputArea output={output} thinking={thinking} />
           <InputArea

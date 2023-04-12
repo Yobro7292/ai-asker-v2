@@ -7,24 +7,6 @@ export interface SetUser {
   limit: number
 }
 
-//get All Users
-export async function getUsers() {
-  try {
-    const users = await client.user.findMany();
-    if(users.length){
-        return users;
-    } else{
-        return {
-            message : "users not found"
-        }
-    }
-  } catch (error) {
-    if(error instanceof Prisma.PrismaClientKnownRequestError || error instanceof Prisma.PrismaClientUnknownRequestError){
-        return error;
-    }
-  }
-}
-
 // Set new user
 export async function setUser(user: SetUser) {
   try {
@@ -45,6 +27,9 @@ export async function getUserByVisitorId(id: string) {
     const user = await client.user.findFirst({
       where: {
         browserId: id
+      }, 
+      include : {
+        recents: true
       }
     })
     if(user){

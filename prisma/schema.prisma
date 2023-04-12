@@ -15,6 +15,14 @@ model User {
   browserId String? @unique
   name String?
   limit Int? @default(5)
+  recents Recent[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+model Recent {
+  id  String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  content String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
 }

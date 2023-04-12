@@ -1,7 +1,11 @@
 import { useAppSelector } from "@/lib/utils/hooks";
 
-export default function RecentSearch() {
-  const recents = useAppSelector((state) => state.auth.recent);
+export default function RecentSearch({
+  setOutput,
+}: {
+  setOutput: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  const recents = useAppSelector((state) => state.auth.user.recents);
   return (
     <div className="hidden max-h-[81vh] lg:flex lg:flex-col justify-start items-center w-full bg-black-low bg-n rounded-md py-2 px-3 overflow-auto">
       {recents &&
@@ -9,7 +13,12 @@ export default function RecentSearch() {
           if (data.title !== "") {
             return (
               <div key={i} className="min-h-[60px] w-full my-2">
-                <div className="w-full px-4 py-4 rounded-lg bg-black-high text-base text-gray-300 inline-block text-ellipsis !overflow-hidden whitespace-nowrap">
+                <div
+                  className="w-full px-4 py-4 rounded-lg bg-black-high text-base text-gray-300 inline-block text-ellipsis !overflow-hidden whitespace-nowrap"
+                  onClick={() => {
+                    setOutput(data.content);
+                  }}
+                >
                   {data.title}
                 </div>
               </div>
