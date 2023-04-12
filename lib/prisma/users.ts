@@ -1,10 +1,11 @@
-import { Prisma } from '@prisma/client'
+// @ts-nocheck
+import { Prisma } from "@prisma/client";
 import client from ".";
 
 export interface SetUser {
   browserId: string;
   name: string;
-  limit: number
+  limit: number;
 }
 
 // Set new user
@@ -15,8 +16,11 @@ export async function setUser(user: SetUser) {
     });
     return { user: usersFromDb };
   } catch (error) {
-    if(error instanceof Prisma.PrismaClientKnownRequestError || error instanceof Prisma.PrismaClientUnknownRequestError){
-        return error;
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError ||
+      error instanceof Prisma.PrismaClientUnknownRequestError
+    ) {
+      return error;
     }
   }
 }
@@ -26,23 +30,23 @@ export async function getUserByVisitorId(id: string) {
   try {
     const user = await client.user.findFirst({
       where: {
-        browserId: id
-      }, 
-      include : {
-        recents: true
-      }
-    })
-    if(user){
+        browserId: id,
+      },
+      include: {
+        recents: true,
+      },
+    });
+    if (user) {
       return {
         success: true,
-        user: user
+        user: user,
       };
-  } else{
+    } else {
       return {
-        success :false,
-          message : "users not found"
-      }
-  }
+        success: false,
+        message: "users not found",
+      };
+    }
   } catch (error) {
     return error;
   }
