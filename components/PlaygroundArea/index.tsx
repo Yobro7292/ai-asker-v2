@@ -6,6 +6,7 @@ import RecentSearch from "./RecentSearch";
 import { useEffect, useState } from "react";
 import RegisterModal from "../RegisterModal/Index";
 import {
+  setRecentsBunch,
   setUser,
   setVisitorId,
   setisFirstTime,
@@ -15,7 +16,7 @@ import Loader from "../common/Loader/Index";
 
 export default function PlaygroundArea() {
   const isFirstTimeUser = useAppSelector((state) => state.auth.isFirstTime);
-  const visitorId = useAppSelector((state) => state.auth.visitorId);
+  const VisitorId = useAppSelector((state) => state.auth.visitorId);
   const [loading, setLoading] = useState<boolean>(true);
   const [output, setOutput] = useState<string>("");
   const [thinking, setThinking] = useState<boolean>(false);
@@ -26,13 +27,17 @@ export default function PlaygroundArea() {
   );
 
   const getUserData = async () => {
-    if (visitorId) {
-      const res = await fetch(`/api/user/${visitorId}`);
+    if (VisitorId) {
+      const res = await fetch(`/api/user/${VisitorId}`);
       if (res) {
         const resData = await res.json();
         if (resData && resData.success) {
           dispatch(setisFirstTime(false));
           dispatch(setUser(resData.user));
+          if (resData.user && resData.user.recents) {
+            const { recents } = resData.user;
+            dispatch(setRecentsBunch(recents));
+          }
           setLoading(false);
         } else {
           dispatch(setisFirstTime(true));
@@ -41,13 +46,14 @@ export default function PlaygroundArea() {
       }
     }
   };
+
   useEffect(() => {
     getUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visitorId]);
+  }, [VisitorId]);
 
   useEffect(() => {
-    if (!visitorId) {
+    if (VisitorId === null) {
       if (!isLoading && data && data.visitorFound) {
         const { visitorId } = data;
         dispatch(setVisitorId(visitorId));
@@ -55,6 +61,12 @@ export default function PlaygroundArea() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
+  useEffect(() => {
+    if (isFirstTimeUser === false) {
+      setLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       {loading && <Loader />}

@@ -1,4 +1,5 @@
-import { useAppDispatch } from "@/lib/utils/hooks";
+import { setRecents } from "@/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/utils/hooks";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -13,7 +14,30 @@ export default function InputArea({
   setThinking,
 }: InputProps) {
   const [question, setQuestion] = useState<string>("");
+  const UserId = useAppSelector((state) => state.auth.user.id);
   const dispatch = useAppDispatch();
+
+  const setRecentsData = async (content: string) => {
+    if (UserId) {
+      const res = await fetch(`/api/recents/${UserId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          recents: {
+            title: question,
+            content: content,
+          },
+        }),
+      });
+      const resData = await res.json();
+      if (resData) {
+        dispatch(setRecents(resData));
+      }
+    }
+  };
+
   const submitHandler = async () => {
     if (question !== "") {
       setThinking(true);
@@ -32,6 +56,7 @@ export default function InputArea({
             const outputMessage = resData.data.choices[0].message.content;
             setOutput(outputMessage);
             setThinking(false);
+            setRecentsData(outputMessage);
           }
         } else {
           setOutput("Sorry something went wrong!");

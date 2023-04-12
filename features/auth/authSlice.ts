@@ -7,30 +7,33 @@ interface CounterState {
   visitorId: string | null;
   isFirstTime: boolean;
   user: {
-    _id: string;
+    id: string;
     name: string;
     limit: number;
     createdAt: string;
     updatedAt: string;
   };
-  recents: {
-    title: string;
-    content: string;
-  }[];
+  recents: res[];
 }
-
+interface res {
+  id?: string;
+  title?: string;
+  content?: string;
+  userId?: string;
+  createdAt?: Date;
+}
 // Define the initial state using that type
 const initialState: CounterState = {
   visitorId: null,
   isFirstTime: true,
   user: {
-    _id: "",
+    id: "",
     name: "",
     limit: 0,
     createdAt: "",
     updatedAt: "",
   },
-  recents: [{ title: "", content: "" }],
+  recents: [],
 };
 
 export const authSlice = createSlice({
@@ -47,10 +50,22 @@ export const authSlice = createSlice({
     setUser: (state, action: { payload: CounterState["user"] }) => {
       state.user = action.payload;
     },
+    setRecents: (state, action: { payload: res }) => {
+      state.recents.push(action.payload);
+    },
+    setRecentsBunch: (state, action: { payload: CounterState["recents"] }) => {
+      state.recents = action.payload;
+    },
   },
 });
 
-export const { setVisitorId, setisFirstTime, setUser } = authSlice.actions;
+export const {
+  setVisitorId,
+  setisFirstTime,
+  setUser,
+  setRecents,
+  setRecentsBunch,
+} = authSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.auth;

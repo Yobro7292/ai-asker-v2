@@ -9,6 +9,7 @@ import { loadFull } from "tsparticles";
 import { particalOptions } from "../../lib/utils/particalOptions";
 import { useAppDispatch, useAppSelector } from "@/lib/utils/hooks";
 import {
+  setRecentsBunch,
   setUser,
   setVisitorId,
   setisFirstTime,
@@ -44,10 +45,11 @@ export default function Hero() {
         dispatch(setisFirstTime(false));
         if (resData.user) {
           const { id, name, limit, createdAt, updatedAt } = resData.user;
-          dispatch(setUser({ _id: id, name, limit, createdAt, updatedAt }));
+          dispatch(setUser({ id: id, name, limit, createdAt, updatedAt }));
         }
-        if (resData.user && resData.recents) {
+        if (resData.user && resData.user.recents) {
           const { recents } = resData.user;
+          dispatch(setRecentsBunch(recents));
         }
       } else {
         dispatch(setisFirstTime(true));
