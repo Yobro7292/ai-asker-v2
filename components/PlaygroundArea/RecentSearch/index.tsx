@@ -1,6 +1,7 @@
 import { setOutputText } from "@/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/utils/hooks";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 interface RecentProps {
   onClose?: () => void;
 }
@@ -18,7 +19,7 @@ export default function RecentSearch({ onClose }: RecentProps) {
           if (data.title !== "") {
             return (
               <div key={i} className="min-h-[60px] w-full my-2">
-                <div
+                <motion.div
                   className="w-full px-4 py-4 rounded-lg bg-black-high text-base text-gray-300 inline-block text-ellipsis !overflow-hidden whitespace-nowrap"
                   onClick={() => {
                     if (data.content) {
@@ -26,9 +27,17 @@ export default function RecentSearch({ onClose }: RecentProps) {
                       if (onClose) onClose();
                     }
                   }}
+                  initial={{
+                    opacity: 0,
+                    scale: 0.8,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
                 >
                   {data.title}
-                </div>
+                </motion.div>
               </div>
             );
           }

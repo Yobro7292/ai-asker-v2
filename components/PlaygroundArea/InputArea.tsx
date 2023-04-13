@@ -7,6 +7,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/utils/hooks";
 import Image from "next/image";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 interface InputProps {
   thinking: boolean;
@@ -107,10 +108,49 @@ export default function InputArea({
       />
       <button
         onClick={submitHandler}
-        className="px-2 py-1 m-2 cursor-pointer invert bg-black rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
+        className="px-2 py-2 m-2 cursor-pointer invert bg-black rounded-lg disabled:cursor-not-allowed"
         disabled={thinking}
       >
-        <Image src="/svg/send.svg" width={30} height={30} alt="send button" />
+        {thinking ? (
+          <motion.div
+            initial={{
+              scale: 0,
+              opacity: 0,
+            }}
+            animate={{
+              scale: [1.1, 1],
+              opacity: 1,
+            }}
+          >
+            <Image
+              src="/svg/loading.svg"
+              width={30}
+              height={30}
+              alt="send button"
+              className="animate-spin"
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{
+              scale: 0,
+              rotate: 60,
+              opacity: 0,
+            }}
+            animate={{
+              scale: [1.1, 1],
+              rotate: 0,
+              opacity: 1,
+            }}
+          >
+            <Image
+              src="/svg/send.svg"
+              width={30}
+              height={30}
+              alt="send button"
+            />
+          </motion.div>
+        )}
       </button>
     </div>
   );

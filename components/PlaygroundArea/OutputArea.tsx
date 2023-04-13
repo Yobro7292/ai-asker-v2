@@ -1,8 +1,7 @@
 import Typewriter from "typewriter-effect";
-import Loader from "../common/Loader/Index";
 import { useAppSelector } from "@/lib/utils/hooks";
 import { useEffect, useState } from "react";
-
+import { motion } from "framer-motion";
 interface OutputProps {
   thinking: boolean;
 }
@@ -17,12 +16,22 @@ export default function OutputArea({ thinking }: OutputProps) {
       className={`relative w-full bg-black-high rounded-lg mb-1 py-4 px-4 text-lg text-gray-100 focus:outline-none text-justify overflow-auto min-h-[70vh] max-h-[70vh] whitespace-pre-line`}
     >
       {thinking ? (
-        <Loader />
+        <motion.p
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          className="animate-pulse"
+        >
+          Thinking...
+        </motion.p>
       ) : (
         <>
           <Typewriter
             options={{
-              delay: 2,
+              delay: 8,
               strings: output,
               autoStart: true,
             }}
