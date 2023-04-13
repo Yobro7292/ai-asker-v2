@@ -2,7 +2,7 @@
 import { Poppins } from "next/font/google";
 import { useVisitorData } from "@fingerprintjs/fingerprintjs-pro-react";
 import styles from "./hero.module.css";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Particles from "react-particles";
 import type { Container, Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
@@ -27,6 +27,7 @@ export default function Hero() {
     { immediate: true }
   );
   const VisitorId = useAppSelector((state) => state.auth.visitorId);
+  const [isFetching, setIsFetching] = useState<boolean>(true);
   const dispatch = useAppDispatch();
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
@@ -42,6 +43,7 @@ export default function Hero() {
       const res = await fetch(`/api/user/${VisitorId}`);
       const resData = await res.json();
       if (resData && resData.success) {
+        setIsFetching(false);
         dispatch(setisFirstTime(false));
         if (resData.user) {
           const { id, name, limit, createdAt, updatedAt } = resData.user;
@@ -52,6 +54,7 @@ export default function Hero() {
           dispatch(setRecentsBunch(recents));
         }
       } else {
+        setIsFetching(false);
         dispatch(setisFirstTime(true));
       }
     }
@@ -88,7 +91,7 @@ export default function Hero() {
           <span className="text-3xl sm:text-4xl lg:text-5xl font-bold sm:font-extrabold my-4 text-center">
             Ask Anything You Want{" "}
           </span>
-          <StartButton />
+          <StartButton isFetching={isFetching} />
         </div>
       </div>
     </>

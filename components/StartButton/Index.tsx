@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useAppSelector } from "@/lib/utils/hooks";
 
-export default function StartButton() {
+export default function StartButton({ isFetching }: { isFetching: boolean }) {
   const UserId = useAppSelector((state) => state.auth.user.id);
   return (
     <motion.div
@@ -17,7 +17,7 @@ export default function StartButton() {
         opacity: 1,
       }}
     >
-      {UserId === "" || UserId === null ? (
+      {isFetching ? (
         <Image
           src={"/svg/loading.svg"}
           alt={"rocket"}

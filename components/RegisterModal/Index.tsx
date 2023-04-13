@@ -43,8 +43,8 @@ export default function RegisterModal() {
           <div className="z-50 w-full p-4 h-full flex justify-center items-center">
             <div className="relative bg-neutral-700 rounded-lg shadow">
               <div className="px-6 py-6 lg:px-8">
-                <h3 className="mb-6 sm:mb-8 text-xl font-medium text-white text-center">
-                  Never see you before 🤔
+                <h3 className="mb-6 sm:mb-8 text-lg font-medium text-white text-center">
+                  We&apos;ve never seen you before 🤔
                 </h3>
                 <div className="space-y-6">
                   <div>
