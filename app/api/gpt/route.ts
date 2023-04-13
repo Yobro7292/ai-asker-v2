@@ -1,47 +1,38 @@
 import { NextResponse } from "next/server";
+import { Configuration, OpenAIApi } from "openai";
 
-export async function POST(request:Request){
-    try {
-        const {question} = await request.json()
-      var myHeaders = new Headers();
-      myHeaders.append("OpenAI-Organization", `${process.env.ORG_KEY}`);
-      myHeaders.append("Authorization", `Bearer ${process.env.API_KEY}`);
-      myHeaders.append("Content-Type", "application/json");
+const configuration = new Configuration({
+  apiKey: process.env.API_KEY,
+});
 
-      var raw = JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "user",
-            content: question,
-          },
-        ],
+export async function POST(request: Request) {
+  try {
+    const { question } = await request.json();
+    const openai = new OpenAIApi(configuration);
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: question,
+      temperature: 0.5,
+      max_tokens: 700,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    });
+    if (response) {
+      return NextResponse.json({
+        success: true,
+        data: response.data.choices[0].text,
       });
-
-      var requestOptions: any = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
-        const res = await fetch("https://api.openai.com/v1/chat/completions", requestOptions)
-        const resJson = await res.json()
-        if(res && resJson){
-            return NextResponse.json({
-                success: true,
-                data: resJson
-            })
-        }else{
-            return NextResponse.json({
-                success : false,
-                message: "GPT error"
-            })
-        }
-        
-    } catch (error:any) {
-        return NextResponse.json({
-            success: false,
-            message: error.message || "something went wrong"
-        })
+    } else {
+      return NextResponse.json({
+        success: false,
+        message: "GPT error",
+      });
     }
+  } catch (error: any) {
+    console.log("error.......", error);
+    return NextResponse.json({
+      success: false,
+      message: error.message || "something went wrong",
+    });
+  }
 }

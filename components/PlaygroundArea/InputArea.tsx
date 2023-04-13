@@ -80,11 +80,10 @@ export default function InputArea({
         if (res) {
           const resData = await res.json();
           if (resData && resData.success) {
-            if (resData.data && resData.data.choices.length) {
-              const outputMessage = resData.data.choices[0].message.content;
-              dispatch(setOutputText(outputMessage));
+            if (resData.data) {
+              dispatch(setOutputText(resData.data));
               setThinking(false);
-              setRecentsData(outputMessage);
+              setRecentsData(resData.data);
               setLimit();
             }
           } else {

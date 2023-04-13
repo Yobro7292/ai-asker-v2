@@ -32,7 +32,7 @@ export default function Header({ logo, links, headerButtons }: Propstype) {
       }`}
     >
       {logo && <Logo poppins={poppins} />}
-      {user && user.limit && (
+      {user.name !== "" && (
         <div className="w-full text-sm font-medium hidden lg:flex justify-end text-white py-2">
           <p>
             {" "}
@@ -49,6 +49,7 @@ export default function Header({ logo, links, headerButtons }: Propstype) {
           </p>
         </div>
       )}
+
       {user && user.name && (
         <div className="w-full text-lg font-medium uppercase hidden lg:flex justify-end text-white py-2">
           {" "}

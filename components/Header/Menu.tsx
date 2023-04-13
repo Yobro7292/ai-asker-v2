@@ -60,7 +60,7 @@ export const Menu = ({ remainLimit, user, poppins }: MenuProps) => {
             </span>{" "}
             questions left.
           </div>
-          {Recents.length > 1 && (
+          {Recents.length > 0 && (
             <div className="flex flex-col px-1 py-1">
               <p>Your recent chats..</p>
               <RecentSearch onClose={toggleDrawer} />
