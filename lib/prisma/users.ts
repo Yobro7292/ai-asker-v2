@@ -50,3 +50,20 @@ export async function getUserByVisitorId(id: string) {
     return error;
   }
 }
+
+//update Limit
+export async function updateLimit(id: string, limit: number) {
+  try {
+    const updated = await client.user.update({
+      where: {
+        browserId: id,
+      },
+      data: {
+        limit: limit,
+      },
+    });
+    return updated;
+  } catch (error) {
+    return error;
+  }
+}

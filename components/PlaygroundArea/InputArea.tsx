@@ -1,21 +1,44 @@
-import { setRecents } from "@/features/auth/authSlice";
+import {
+  setIsReachedLimits,
+  setOutputText,
+  setRecents,
+  setUpdatedLimit,
+} from "@/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/utils/hooks";
 import Image from "next/image";
 import { useState } from "react";
 
 interface InputProps {
   thinking: boolean;
-  setOutput: React.Dispatch<React.SetStateAction<string>>;
   setThinking: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenPaymentModel: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function InputArea({
-  setOutput,
   thinking,
   setThinking,
+  setIsOpenPaymentModel,
 }: InputProps) {
   const [question, setQuestion] = useState<string>("");
   const UserId = useAppSelector((state) => state.auth.user.id);
+  const Limit = useAppSelector((state) => state.auth.user.limit);
+  const VisitorId = useAppSelector((state) => state.auth.visitorId);
   const dispatch = useAppDispatch();
+
+  const setLimit = async () => {
+    const res = await fetch(`/api/user/${VisitorId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        limit: Limit - 1,
+      }),
+    });
+    const resData = await res.json();
+    if (resData) {
+      dispatch(setUpdatedLimit(Limit - 1));
+    }
+  };
 
   const setRecentsData = async (content: string) => {
     if (UserId) {
@@ -40,27 +63,34 @@ export default function InputArea({
 
   const submitHandler = async () => {
     if (question !== "") {
-      setThinking(true);
-      setOutput("");
-      const res = await fetch("/api/gpt", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ question }),
-      });
-      if (res) {
-        const resData = await res.json();
-        if (resData && resData.success) {
-          if (resData.data && resData.data.choices.length) {
-            const outputMessage = resData.data.choices[0].message.content;
-            setOutput(outputMessage);
+      if (Limit === 0 || Limit <= 0) {
+        dispatch(setOutputText(""));
+        dispatch(setIsReachedLimits(true));
+        setIsOpenPaymentModel(true);
+      } else {
+        setThinking(true);
+        dispatch(setOutputText(""));
+        const res = await fetch("/api/gpt", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ question }),
+        });
+        if (res) {
+          const resData = await res.json();
+          if (resData && resData.success) {
+            if (resData.data && resData.data.choices.length) {
+              const outputMessage = resData.data.choices[0].message.content;
+              dispatch(setOutputText(outputMessage));
+              setThinking(false);
+              setRecentsData(outputMessage);
+              setLimit();
+            }
+          } else {
+            dispatch(setOutputText("Sorry something went wrong!"));
             setThinking(false);
-            setRecentsData(outputMessage);
           }
-        } else {
-          setOutput("Sorry something went wrong!");
-          setThinking(false);
         }
       }
     }

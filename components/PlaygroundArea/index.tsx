@@ -13,13 +13,17 @@ import {
 } from "@/features/auth/authSlice";
 import { useVisitorData } from "@fingerprintjs/fingerprintjs-pro-react";
 import Loader from "../common/Loader/Index";
+import PaymentModal from "../PaymentModal/Index";
 
 export default function PlaygroundArea() {
   const isFirstTimeUser = useAppSelector((state) => state.auth.isFirstTime);
   const VisitorId = useAppSelector((state) => state.auth.visitorId);
+  const isReachedLimits = useAppSelector((state) => state.auth.isRechedLimits);
   const [loading, setLoading] = useState<boolean>(true);
   const [output, setOutput] = useState<string>("");
   const [thinking, setThinking] = useState<boolean>(false);
+  const [reached, setReached] = useState<boolean>(false);
+  const [isOpenPaymentModel, setIsOpenPaymentModel] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { isLoading, data } = useVisitorData(
     { extendedResult: true },
@@ -67,18 +71,27 @@ export default function PlaygroundArea() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    setReached(isReachedLimits);
+    setIsOpenPaymentModel(true);
+  }, [isReachedLimits]);
   return (
     <>
       {loading && <Loader />}
       {!loading && isFirstTimeUser && <RegisterModal />}
+      {reached && isOpenPaymentModel && (
+        <PaymentModal setIsOpenPaymentModel={setIsOpenPaymentModel} />
+      )}
       <div className="grid grid-cols-4 gap-2 w-full sm:py-2 sm:px-16 mb-20 sm:mb-4 min-h-[70vh] max-h-[70vh]">
-        <RecentSearch setOutput={setOutput} />
+        <div className="hidden lg:block">
+          <RecentSearch />
+        </div>
         <div className="col-start-1 col-end-5 lg:col-start-2 lg:col-end-5 flex flex-col justify-between items-center w-full bg-black-low rounded-md p-2">
-          <OutputArea output={output} thinking={thinking} />
+          <OutputArea thinking={thinking} />
           <InputArea
-            setOutput={setOutput}
             setThinking={setThinking}
             thinking={thinking}
+            setIsOpenPaymentModel={setIsOpenPaymentModel}
           />
         </div>
       </div>

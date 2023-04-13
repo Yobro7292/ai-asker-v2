@@ -1,4 +1,6 @@
+import { useAppSelector } from "@/lib/utils/hooks";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export interface PoppinsFontClasses {
   poppins: {
@@ -18,32 +20,18 @@ export interface Link {
   href: string;
 }
 
-const links: Link[] = [
-  { lable: "Home", href: "#" },
-  { lable: "About", href: "#" },
-  { lable: "Contact us", href: "#" },
-];
 export default function Links({ poppins }: PoppinsFontClasses) {
+  const Limit = useAppSelector((state) => state.auth.user.limit);
+  const [remainLimit, setRemainLimit] = useState<number>(0);
+  useEffect(() => {
+    setRemainLimit(Limit);
+  }, [Limit]);
   return (
-    <>
-      {" "}
-      <div
-        className={`w-full hidden lg:flex justify-center items-center text-md text-white font-light ${poppins.className} py-2`}
-      >
-        {links.map((link, i) => {
-          return (
-            <Link
-              key={i}
-              href={link.href}
-              className={`${
-                i !== 0 && i !== links.length - 1 ? "px-6" : "px-0"
-              } text-md text-white hover:text-gray-200 font-thin`}
-            >
-              {link.lable}
-            </Link>
-          );
-        })}
-      </div>
-    </>
+    <div
+      className={`w-full hidden lg:flex justify-center items-center text-md text-white font-light ${poppins.className} py-2`}
+    >
+      asas
+      <p> Remaining Limit </p>
+    </div>
   );
 }

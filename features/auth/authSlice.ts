@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../lib/utils/store";
 
 // Define a type for the slice state
-interface CounterState {
+export interface CounterState {
   visitorId: string | null;
   isFirstTime: boolean;
   user: {
@@ -14,6 +14,8 @@ interface CounterState {
     updatedAt: string;
   };
   recents: res[];
+  isRechedLimits: boolean;
+  outputText: string;
 }
 interface res {
   id?: string;
@@ -34,6 +36,8 @@ const initialState: CounterState = {
     updatedAt: "",
   },
   recents: [],
+  isRechedLimits: false,
+  outputText: "",
 };
 
 export const authSlice = createSlice({
@@ -56,6 +60,15 @@ export const authSlice = createSlice({
     setRecentsBunch: (state, action: { payload: CounterState["recents"] }) => {
       state.recents = action.payload;
     },
+    setUpdatedLimit: (state, action: { payload: number }) => {
+      state.user.limit = action.payload;
+    },
+    setIsReachedLimits: (state, { payload }: { payload: boolean }) => {
+      state.isRechedLimits = payload;
+    },
+    setOutputText: (state, { payload }: { payload: string }) => {
+      state.outputText = payload;
+    },
   },
 });
 
@@ -65,6 +78,9 @@ export const {
   setUser,
   setRecents,
   setRecentsBunch,
+  setUpdatedLimit,
+  setIsReachedLimits,
+  setOutputText,
 } = authSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

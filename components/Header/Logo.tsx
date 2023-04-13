@@ -17,7 +17,7 @@ export default function Logo({ poppins }: PoppinsFontClasses) {
   return (
     <Link
       href={"/"}
-      className={`w-full flex justify-start text-3xl text-white font-extrabold ${poppins.className}`}
+      className={`w-max whitespace-nowrap flex justify-start text-3xl text-white font-extrabold ${poppins.className}`}
     >
       Ai Asker
     </Link>

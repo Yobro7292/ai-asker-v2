@@ -1,18 +1,18 @@
-import { useAppSelector } from "@/lib/utils/hooks";
+import { setOutputText } from "@/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/utils/hooks";
 import { useEffect, useState } from "react";
-
-export default function RecentSearch({
-  setOutput,
-}: {
-  setOutput: React.Dispatch<React.SetStateAction<string>>;
-}) {
+interface RecentProps {
+  onClose?: () => void;
+}
+export default function RecentSearch({ onClose }: RecentProps) {
   const recents = useAppSelector((state) => state.auth.recents);
   const [recent, setRecent] = useState(recents);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     setRecent(recents);
   }, [recents]);
   return (
-    <div className="hidden max-h-[81vh] lg:flex lg:flex-col justify-start items-center w-full bg-black-low bg-n rounded-md py-2 px-3 overflow-auto">
+    <div className="max-h-[81vh] lg:min-h-[81vh] flex flex-col justify-start items-center w-full bg-black-low bg-n rounded-md py-2 px-3 overflow-auto">
       {recent &&
         recent.map((data, i) => {
           if (data.title !== "") {
@@ -21,7 +21,10 @@ export default function RecentSearch({
                 <div
                   className="w-full px-4 py-4 rounded-lg bg-black-high text-base text-gray-300 inline-block text-ellipsis !overflow-hidden whitespace-nowrap"
                   onClick={() => {
-                    if (data.content) setOutput(data.content);
+                    if (data.content) {
+                      dispatch(setOutputText(data.content));
+                      if (onClose) onClose();
+                    }
                   }}
                 >
                   {data.title}
