@@ -34,7 +34,7 @@ export default function PaymentModal({
               </div>
 
               <p className="text-xs font-light text-gray-400 text-center py-8">
-                Payment Model Comming soon...
+                Subscribe options are Comming soon...
               </p>
             </div>
           </div>

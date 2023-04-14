@@ -48,18 +48,20 @@ export const Menu = ({ remainLimit, user, poppins }: MenuProps) => {
             {" "}
             Hello, {user.name}
           </div>
-          <div className="bg-transparent w-full px-2 py-4 font-normal text-sm">
-            {" "}
-            You have{" "}
-            <span
-              className={`font-semibold ${
-                remainLimit <= 1 ? "text-red-500" : "text-green-500"
-              }`}
-            >
-              {remainLimit}
-            </span>{" "}
-            questions left.
-          </div>
+          {user.id != "" && (
+            <div className="bg-transparent w-full px-2 py-4 font-normal text-sm">
+              {" "}
+              You have{" "}
+              <span
+                className={`font-semibold ${
+                  remainLimit <= 1 ? "text-red-500" : "text-green-500"
+                }`}
+              >
+                {remainLimit}
+              </span>{" "}
+              questions left.
+            </div>
+          )}
           {Recents.length > 0 && (
             <div className="flex flex-col px-1 py-1">
               <p>Your recent chats..</p>
